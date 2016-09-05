@@ -1,0 +1,10 @@
+{
+  "projects": {
+    "1": {"name": "Petrzka"},
+    "2": {"name": "Photor"}
+  },
+
+  "tasks": {
+    "1": {"name": "Implement scanning", "projectId": 2}
+  }
+}
