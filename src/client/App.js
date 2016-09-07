@@ -3,6 +3,7 @@ import { observable } from 'mobx'
 import { observer } from 'mobx-react'
 import uuid from 'uuid'
 
+import * as Api from './api'
 import TaskList from './TaskList'
 
 const AppState = observable({
@@ -19,6 +20,9 @@ const AppState = observable({
 
 const addTask = (name) => {
   const id = uuid.v1()
+
+  Api.addTask({name, projectId: 0})
+
   AppState.tasks[id] = {name, projectId: 0}
   AppState.taskList.push(id)
 }
