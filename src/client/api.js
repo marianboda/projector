@@ -1,11 +1,11 @@
 export const addTask = (task) => {
-  const headers = new Headers({'Content-Type': 'application/json'})
-
   return fetch('/tasks', {
     method: 'POST',
-    headers: headers,
+    headers: new Headers({'Content-Type': 'application/json'}),
     body: JSON.stringify(task)
   }).then(res => res.json())
 }
 
-// export addTask
+export const getTasks = () => {
+  return fetch('/tasks').then(res => res.json())
+}

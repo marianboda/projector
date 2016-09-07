@@ -1,7 +1,7 @@
 var path = require('path')
 
 module.exports = {
-  entry: './src/client/index.js',
+  entry: ['babel-polyfill', './src/client/index.js'],
   output: {
     path: path.resolve(__dirname, 'public'),
     filename: 'bundle.js'
@@ -13,7 +13,7 @@ module.exports = {
         include: [path.resolve(__dirname, 'src', 'client')],
         loader: 'babel',
         query: {
-          presets: ['es2015', 'react']
+          presets: ['es2015', 'react', 'stage-0']
         }
       }
     ]

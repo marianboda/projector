@@ -7,24 +7,21 @@ import * as Api from './api'
 import TaskList from './TaskList'
 
 const AppState = observable({
-  tasks: {
-    "1": {"name": "Implement scanning", "projectId": 2},
-    "2": {"name": "Implement review", "projectId": 2}
-  },
-  projects: {
-    "1": {"name": "Petrzka"},
-    "2": {"name": "Photor"}
-  },
-  taskList: ['2','1']
+  tasks: {},
+  projects: {},
+  taskList: []
 })
 
-const addTask = (name) => {
-  const id = uuid.v1()
+async function getTasks() {
+  const rawTasks = await Api.getTasks()
+  AppState.taskList = []
+  AppState.tasks = rawTasks.reduce((acc, el) => ({[el.id]: el, ...acc}),{})
+  AppState.taskList = rawTasks.map(i => i.id)
+}
 
-  Api.addTask({name, projectId: 0})
-
-  AppState.tasks[id] = {name, projectId: 0}
-  AppState.taskList.push(id)
+const addTask = async (name) => {
+  await Api.addTask({name, projectId: 0})
+  await getTasks()
 }
 
 const keyPressHandler = (e) => {
@@ -35,6 +32,9 @@ const keyPressHandler = (e) => {
 }
 
 class App extends React.Component {
+  componentWillMount() {
+    getTasks()
+  }
   render() {
     console.log('rendering', AppState)
     return (<div>
