@@ -1,10 +1,19 @@
 {
-  "projects": {
-    "1": {"name": "Petrzka"},
-    "2": {"name": "Photor"}
-  },
-
-  "tasks": {
-    "1": {"name": "Implement scanning", "projectId": 2}
-  }
+  "projects": [
+    {
+      "id": 1,
+      "name": "Petrzka"
+    },
+    {
+      "id": 2,
+      "name": "Photor"
+    }
+  ],
+  "tasks": [
+    {
+      "id": 1,
+      "name": "Task 1",
+      "projectId": 2
+    }
+  ]
 }
