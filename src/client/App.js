@@ -7,8 +7,9 @@ import * as Api from './api'
 import TaskList from './TaskList'
 
 const AppState = observable({
+  currentProject: 0,
   tasks: {},
-  projects: {},
+  projects: [],
   taskList: []
 })
 
@@ -19,8 +20,14 @@ async function getTasks() {
   AppState.taskList = rawTasks.map(i => i.id)
 }
 
+async function getProjects() {
+  AppState.projects = await Api.getProjects()
+  // const rawProjects = await Api.getProjects()
+  // AppState.projects = rawProjects.reduce((acc, el) => ({[el.id]: el, ...acc}),{})
+}
+
 const addTask = async (name) => {
-  await Api.addTask({name, projectId: 0})
+  await Api.addTask({name, projectId: AppState.currentProject})
   await getTasks()
 }
 
@@ -34,16 +41,28 @@ const keyPressHandler = (e) => {
 class App extends React.Component {
   componentWillMount() {
     getTasks()
+    getProjects()
+  }
+
+  projectChangeHandler(e) {
+    AppState.currentProject = e.target.value
   }
   render() {
-    console.log('rendering', AppState)
+    const pId = AppState.currentProject
     return (<div>
-        <h1>Application up and running + </h1>
-        <TaskList tasks={AppState.taskList.map(i => AppState.tasks[i])}/>
-        <input type="text" onKeyPress={keyPressHandler} />
+        <h1>Tasks</h1>
+          <select onChange={this.projectChangeHandler} value={pId}>
+            <option value="0">-- ALL ---</option>
+            {AppState.projects.map((p) => <option value={p.id}>{p.name}</option>)}
+          </select>
+          <br></br>
+          <input type="text" onKeyPress={keyPressHandler} />
+        <TaskList tasks={
+            AppState.taskList.map(i => AppState.tasks[i])
+              .filter(i => pId == 0 || i.projectId == pId)
+            }/>
       </div>
     )
-
   }
 }
 
