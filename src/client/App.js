@@ -1,35 +1,10 @@
 import React from 'react'
-import { observable } from 'mobx'
 import { observer } from 'mobx-react'
 import uuid from 'uuid'
 
-import * as Api from './api'
 import TaskList from './TaskList'
 
-const AppState = observable({
-  currentProject: 0,
-  tasks: {},
-  projects: [],
-  taskList: []
-})
-
-async function getTasks() {
-  const rawTasks = await Api.getTasks()
-  AppState.taskList = []
-  AppState.tasks = rawTasks.reduce((acc, el) => ({[el.id]: el, ...acc}),{})
-  AppState.taskList = rawTasks.map(i => i.id)
-}
-
-async function getProjects() {
-  AppState.projects = await Api.getProjects()
-  // const rawProjects = await Api.getProjects()
-  // AppState.projects = rawProjects.reduce((acc, el) => ({[el.id]: el, ...acc}),{})
-}
-
-const addTask = async (name) => {
-  await Api.addTask({name, projectId: AppState.currentProject})
-  await getTasks()
-}
+import { AppState, getData, addTask } from './store'
 
 const keyPressHandler = (e) => {
   if (e.charCode == 13) {
@@ -40,8 +15,7 @@ const keyPressHandler = (e) => {
 
 class App extends React.Component {
   componentWillMount() {
-    getTasks()
-    getProjects()
+    getData()
   }
 
   projectChangeHandler(e) {
