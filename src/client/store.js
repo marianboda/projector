@@ -18,8 +18,6 @@ export async function getTasks() {
 
 export async function getProjects() {
   AppState.projects = await Api.getProjects()
-  // const rawProjects = await Api.getProjects()
-  // AppState.projects = rawProjects.reduce((acc, el) => ({[el.id]: el, ...acc}),{})
 }
 
 export const addTask = async (name) => {
