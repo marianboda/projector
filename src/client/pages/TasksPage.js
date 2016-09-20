@@ -1,21 +1,19 @@
 import React from 'react'
 import { observer } from 'mobx-react'
 
-import { AppState, getData, addTask } from '../store'
-
+import { AppState, getData, saveTask } from '../store'
 import TaskList from '../TaskList'
+import TaskEditor from '../components/TaskEditor'
 
 function keyPressHandler() {}
+
+const changeHandler = (change) => {
+  AppState.currentTask = {...AppState.currentTask, ...change}
+}
 
 class TasksPage extends React.Component {
   projectChangeHandler(e) {
     AppState.currentProject = e.target.value
-  }
-  keyPressHandler = (e) => {
-    if (e.charCode == 13) {
-      addTask(e.target.value)
-      e.target.value = ''
-    }
   }
 
   render() {
@@ -27,11 +25,14 @@ class TasksPage extends React.Component {
               <option value="0">-- ALL ---</option>
               {AppState.projects.map((p) => <option key={p.id} value={p.id}>{p.name}</option>)}
             </select>
-            <br></br>
-            <input type="text" onKeyPress={this.keyPressHandler} />
+            <hr />
+          <TaskEditor data={AppState.currentTask}
+             projects={AppState.projects}
+             changeHandler={changeHandler}
+             saveHandler={() => saveTask(AppState.currentTask)}/>
           <TaskList tasks={
               AppState.taskList.map(i => AppState.tasks[i])
-                .filter(i => pId == 0 || i.projectId == pId)
+                .filter(i => pId == 0 || pId == i.projectId)
               }/>
         </div>
     )

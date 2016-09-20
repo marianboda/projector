@@ -6,7 +6,11 @@ export const AppState = observable({
   currentProject: 0,
   tasks: {},
   projects: [],
-  taskList: []
+  taskList: [],
+  currentTask: {
+    projectId: 0,
+    name: ''
+  }
 })
 
 export async function getTasks() {
@@ -20,8 +24,8 @@ export async function getProjects() {
   AppState.projects = await Api.getProjects()
 }
 
-export const addTask = async (name) => {
-  await Api.addTask({name, projectId: AppState.currentProject})
+export const saveTask = async (task) => {
+  await Api.saveTask(task)
   await getTasks()
 }
 

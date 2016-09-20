@@ -1,4 +1,4 @@
-export const addTask = (task) => {
+export const saveTask = (task) => {
   return fetch('/tasks', {
     method: 'POST',
     headers: new Headers({'Content-Type': 'application/json'}),
