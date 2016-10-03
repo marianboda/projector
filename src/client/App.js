@@ -7,6 +7,8 @@ import TasksPage from './pages/TasksPage'
 import ProjectsPage from './pages/ProjectsPage'
 import { getData } from './store'
 
+import './app.sass'
+
 class App extends React.Component {
   componentWillMount() {
     getData()
@@ -15,13 +17,17 @@ class App extends React.Component {
   render() {
     return (
       <HashRouter>
-        <div>
-          <ul>
-            <li><Link to="/tasks">Tasks</Link></li>
-            <li><Link to="/projects">Projects</Link></li>
-          </ul>
-          <Match pattern="/tasks" component={TasksPage} />
-          <Match pattern="/projects" component={ProjectsPage} />
+        <div className="appContainer">
+          <div className="appHeader">
+            <ul className="top-menu">
+              <li><Link to="/tasks">Tasks</Link></li>
+              <li><Link to="/projects">Projects</Link></li>
+            </ul>
+          </div>
+          <div className="appContent">
+            <Match pattern="/tasks" component={TasksPage} />
+            <Match pattern="/projects" component={ProjectsPage} />
+          </div>
         </div>
       </HashRouter>
     )
