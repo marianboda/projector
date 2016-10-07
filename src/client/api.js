@@ -1,5 +1,5 @@
 export const saveTask = (task) => {
-  return fetch('/tasks', {
+  return fetch('/api/tasks', {
     method: 'POST',
     headers: new Headers({'Content-Type': 'application/json'}),
     body: JSON.stringify(task)
@@ -7,9 +7,9 @@ export const saveTask = (task) => {
 }
 
 export const getTasks = () => {
-  return fetch('/tasks').then(res => res.json())
+  return fetch('/api/tasks').then(res => res.json())
 }
 
 export const getProjects = () => {
-  return fetch('/projects').then(res => res.json())
+  return fetch('/api/projects').then(res => res.json())
 }
