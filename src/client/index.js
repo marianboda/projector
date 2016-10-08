@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { HashRouter } from 'react-router'
 
 import App from './App'
 
-ReactDOM.render(<App/>, document.getElementById('appContainer'))
+ReactDOM.render(<HashRouter><App/></HashRouter>, document.getElementById('appContainer'))

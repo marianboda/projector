@@ -13,23 +13,28 @@ const changeHandler = (change) => {
 
 class TasksPage extends React.Component {
   projectChangeHandler(e) {
-    AppState.currentProject = e.target.value
+    const val = e.target.value
+    AppState.currentProject = val
+    if (val != 0)
+      AppState.currentTask.projectId = val
+
   }
 
   render() {
     const pId = AppState.currentProject
     return (
         <div>
-          <h2>Tasks</h2>
+          <div className="filterRow">
             <select onChange={this.projectChangeHandler} value={pId}>
               <option value="0">-- ALL ---</option>
               {AppState.projects.map((p) => <option key={p.id} value={p.id}>{p.name}</option>)}
             </select>
-            <hr />
+          </div>
           <TaskEditor data={AppState.currentTask}
              projects={AppState.projects}
              changeHandler={changeHandler}
              saveHandler={() => saveTask(AppState.currentTask)}/>
+          <hr />
           <TaskList tasks={
               AppState.taskList.map(i => AppState.tasks[i])
                 .filter(i => pId == 0 || pId == i.projectId)
