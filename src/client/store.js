@@ -2,8 +2,10 @@ import { observable } from 'mobx'
 
 import * as Api from './api'
 
+const initProject = localStorage.getItem('currentProject')
+
 export const AppState = observable({
-  currentProject: 0,
+  currentProject: initProject ? initProject : 0,
   tasks: {},
   projects: [],
   taskList: [],

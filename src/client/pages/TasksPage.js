@@ -17,7 +17,7 @@ class TasksPage extends React.Component {
     AppState.currentProject = val
     if (val != 0)
       AppState.currentTask.projectId = val
-
+      localStorage.setItem('currentProject', val)
   }
 
   render() {
