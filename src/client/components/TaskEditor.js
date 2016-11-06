@@ -19,7 +19,8 @@ const TaskEditor = (props) => {
         <tr>
           <td>Task</td>
           <td>
-            <input type="text" onChange={(e) => change({name: e.target.value})} />
+            <input type="text" onChange={(e) => change({name: e.target.value})}
+              onKeyDown={(e, v) => e.key == 'Enter' ? props.saveHandler(e) : null}/>
           </td>
         </tr>
         <tr>
