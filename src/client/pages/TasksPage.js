@@ -38,7 +38,9 @@ class TasksPage extends React.Component {
           <TaskList tasks={
               AppState.taskList.map(i => AppState.tasks[i])
                 .filter(i => pId == 0 || pId == i.projectId)
-              }/>
+              }
+            onCheck={(e) => {console.log('check', e); saveTask(e)}}
+            onSelect={() => console.log('select')}/>
         </div>
     )
   }
