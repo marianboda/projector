@@ -11,6 +11,7 @@ export const AppState = observable({
   taskList: [],
   currentTask: {
     projectId: 0,
+    state: 0,
     name: ''
   }
 })
@@ -18,7 +19,7 @@ export const AppState = observable({
 export async function getTasks() {
   const rawTasks = await Api.getTasks()
   AppState.taskList = []
-  AppState.tasks = rawTasks.reduce((acc, el) => ({[el.id]: el, ...acc}),{})
+  AppState.tasks = rawTasks.reduce((acc, el) => ({[el.id]: el, ...acc}), {})
   AppState.taskList = rawTasks.map(i => i.id)
 }
 
