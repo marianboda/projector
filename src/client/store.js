@@ -1,8 +1,14 @@
-import { observable } from 'mobx'
+import { observable, toJS } from 'mobx'
 
 import * as Api from './api'
 
 const initProject = localStorage.getItem('currentProject')
+
+const getBlankTask = () => ({
+  projectId: 0,
+  state: 0,
+  name: '',
+})
 
 export const AppState = observable({
   currentProject: initProject ? initProject : 0,
@@ -10,9 +16,9 @@ export const AppState = observable({
   projects: [],
   taskList: [],
   currentTask: {
-    projectId: 0,
+    projectId: initProject ? initProject : 0,
     state: 0,
-    name: ''
+    name: '',
   }
 })
 
@@ -28,7 +34,9 @@ export async function getProjects() {
 }
 
 export const saveTask = async (task) => {
-  await Api.saveTask(task)
+  const snapshot = toJS(task)
+  AppState.currentTask.name = ''
+  await Api.saveTask(snapshot)
   await getTasks()
 }
 
