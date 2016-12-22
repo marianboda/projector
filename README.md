@@ -1,3 +1,3 @@
 #Projector
 
-task list project to try the MobX library
+task list project to try MobX + Koa
