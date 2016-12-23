@@ -5,7 +5,7 @@ import path from 'path'
 const app = koa()
 
 app.use(serve(path.resolve(__dirname, '..', 'dist')))
-app.use(serve(path.resolve(__dirname, 'static')))
+app.use(serve(path.resolve(__dirname, '..', 'public')))
 
 
 // app.use(function *(){
