@@ -13,6 +13,7 @@ const getBlankTask = () => ({
 export const AppState = observable({
   currentProject: initProject ? initProject : 0,
   tasks: {},
+  session: {},
   projects: [],
   taskList: [],
   currentTask: {
@@ -29,6 +30,12 @@ export async function getTasks() {
   AppState.taskList = rawTasks.map(i => i.id)
 }
 
+export async function getSessionInfo() {
+  const session = await Api.getSessionInfo()
+  AppState.session = session
+  console.log('session', session)
+}
+
 export async function getProjects() {
   AppState.projects = await Api.getProjects()
 }
@@ -41,6 +48,7 @@ export const saveTask = async (task) => {
 }
 
 export function getData() {
-  getTasks()
-  getProjects()
+  getSessionInfo()
+  // getTasks()
+  // getProjects()
 }

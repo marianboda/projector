@@ -19,6 +19,10 @@ export const getTasks = () => {
   return fetch('/api/tasks').then(res => res.json())
 }
 
+export const getSessionInfo = () => {
+  return fetch('/session-info').then(res => res.json())
+}
+
 export const getProjects = () => {
   return fetch('/api/projects').then(res => res.json())
 }
