@@ -4,6 +4,9 @@ import path from 'path'
 import session from 'koa-session'
 import mount from 'koa-mount'
 import Grant from 'grant-koa'
+import fetch from 'isomorphic-fetch'
+
+import {googleKey, googleSecret} from '../.keys'
 
 const authConfig = {
   server: {
@@ -14,8 +17,8 @@ const authConfig = {
     state: true,
   },
   google: {
-    key: 'xxxxxx',
-    secret: 'xxxxxx',
+    key: googleKey,
+    secret: googleSecret,
     scope: ['profile', 'email'],
     redirect_uri: 'http://localhost:3000/connect/google/callback',
   }
@@ -28,13 +31,37 @@ app.keys = ['grant']
 app.use(session(app))
 app.use(mount(grant))
 
-app.use(serve(path.resolve(__dirname, '..', 'dist')))
+app.use(serve(path.resolve(__dirname, '..', 'public')))
 app.use(serve(path.resolve(__dirname, 'static')))
 
-app.use(function *(){
+// app.use('/session-info', function *(){
+//   console.log('session info :)')
+// })
+
+// app.use(function *(next){
+// })
+
+
+app.use(function *(next){
   // this.body = 'Hello :)'
-  console.log(this.session.grant.response.access_token)
-  this.body = JSON.stringify(this.query, null, 2)
+  if (this.url == '/session-info') {
+    if (this.session && this.session.grant) {
+      console.log(this.session.grant.response.access_token)
+      yield fetch('https://www.googleapis.com/oauth2/v3/tokeninfo?access_token='+
+        this.session.grant.response.access_token).then(i => i.json()).then(i => {
+          this.body = JSON.stringify(i)
+        })
+    }
+  } else {
+    console.log(this.url)
+    if (this.session && this.session.grant) {
+      console.log(this.session.grant.response.access_token)
+    }
+    else {
+      console.log('nonono nono')
+    }
+    this.body = JSON.stringify(this.query, null, 2)
+  }
   // way to check token info: https://www.googleapis.com/oauth2/v3/tokeninfo?access_token=_____
 })
 
