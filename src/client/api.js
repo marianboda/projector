@@ -16,11 +16,11 @@ export const patchTask = (task) => {
 
 
 export const getTasks = () => {
-  return fetch('/api/tasks').then(res => res.json())
+  return fetch('/api/tasks', {credentials: "same-origin"}).then(res => res.json())
 }
 
 export const getSessionInfo = () => {
-  return fetch('/session-info').then(res => res.json())
+  return fetch('/session-info', {credentials: "same-origin"}).then(res => res.json())
 }
 
 export const getProjects = () => {

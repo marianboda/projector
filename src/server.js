@@ -45,7 +45,7 @@ app.use(serve(path.resolve(__dirname, 'static')))
 app.use(function *(next){
   // this.body = 'Hello :)'
   if (this.url == '/callback') {
-    if (this.session && this.session.grant && this.session.grant.response) {
+     if (this.session && this.session.grant && this.session.grant.response) {
       console.log(this.session.grant.response.access_token)
       yield fetch('https://www.googleapis.com/oauth2/v2/userinfo?access_token='+
           this.session.grant.response.access_token)
@@ -54,7 +54,7 @@ app.use(function *(next){
           this.session.currentUser = i
           this.body = JSON.stringify(i)
           return null
-        })
+        }).catch(e => console.log(e))
     }
   } else if (this.url == '/session-info') {
       if (this.session && this.session.currentUser) {

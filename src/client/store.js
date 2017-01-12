@@ -33,7 +33,6 @@ export async function getTasks() {
 export async function getSessionInfo() {
   const session = await Api.getSessionInfo()
   AppState.session = session
-  console.log('session', session)
 }
 
 export async function getProjects() {
